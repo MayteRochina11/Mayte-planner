@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#FF6B9D">
+    <title>Mayte Planner</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header con Mayte -->
+        <div class="mayte-header" id="mayteHeader">
+            <div class="mayte-avatar">🌸</div>
+            <div class="mayte-message" id="mayteMessage">
+                Cargando mensaje especial...
+            </div>
+        </div>
+
+        <!-- Navegación principal -->
+        <div class="nav-bar">
+            <button class="nav-btn active" data-tab="calendario">📅</button>
+            <button class="nav-btn" data-tab="pomodoro">🍅</button>
+            <button class="nav-btn" data-tab="notas">📝</button>
+            <button class="nav-btn" data-tab="feynman">🧠</button>
+        </div>
+
+        <!-- ========== PESTAÑA CALENDARIO ========== -->
+        <div id="tab-calendario" class="tab-pane active">
+            <div class="tab-header">
+                <h2>📅 Mi Horario</h2>
+                <div>
+                    <button class="btn-help" onclick="mostrarAyuda('calendario')">❓</button>
+                    <button class="btn-add" onclick="abrirModalTarea()">+</button>
+                </div>
+            </div>
+            
+            <!-- Selector de vista -->
+            <div class="vista-selector">
+                <button class="vista-btn active" data-vista="dia">Día</button>
+                <button class="vista-btn" data-vista="semana">Semana</button>
+                <button class="vista-btn" data-vista="mes">Mes</button>
+            </div>
+
+            <!-- Calendario -->
+            <div id="calendario-container"></div>
+            
+            <!-- Lista de tareas del día -->
+            <div class="seccion-tareas">
+                <h3>📋 Tareas para hoy</h3>
+                <div id="listaTareas" class="tareas-lista"></div>
+            </div>
+        </div>
+
+        <!-- ========== PESTAÑA POMODORO AVANZADO ========== -->
+        <div id="tab-pomodoro" class="tab-pane">
+            <div class="tab-header">
+                <h2>🍅 Pomodoro Avanzado</h2>
+                <button class="btn-help" onclick="mostrarAyuda('pomodoro')">❓</button>
+            </div>
+
+            <!-- Configuración de sesión -->
+            <div id="configPanel" class="config-panel">
+                <input type="text" id="sesionNombre" placeholder="Nombre de la sesión (ej. Estudiar Matemáticas)" class="input-full">
+                <input type="number" id="tiempoTotal" placeholder="Tiempo total (minutos) - Opcional" class="input-full">
+                
+                <h3>📋 Secuencia de bloques</h3>
+                <div id="listaBloquesContainer" class="bloques-container"></div>
+                
+                <div class="button-group">
+                    <button class="btn-secondary" onclick="agregarBloque()">+ Agregar bloque</button>
+                    <button class="btn-primary" onclick="iniciarSesionPomodoro()">▶ Iniciar sesión</button>
+                </div>
+            </div>
+
+            <!-- Temporizador en ejecución -->
+            <div id="timerPanel" class="timer-panel" style="display:none;">
+                <div class="timer-card">
+                    <div class="timer-tipo" id="timerTipo">📚 ESTUDIO</div>
+                    <div class="timer-titulo" id="timerTitulo"></div>
+                    <div class="timer-display" id="timerDisplay">00:00</div>
+                    <div class="timer-progreso">
+                        <div class="progreso-bloque" id="progresoBloque"></div>
+                    </div>
+                    <div class="siguiente-info">
+                        <span>⏩ Siguiente:</span>
+                        <span id="siguienteTexto"></span>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn-danger" onclick="cancelarSesion()">❌ Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== PESTAÑA NOTAS ========== -->
+        <div id="tab-notas" class="tab-pane">
+            <div class="tab-header">
+                <h2>📝 Mis Notas</h2>
+                <div>
+                    <button class="btn-help" onclick="mostrarAyuda('notas')">❓</button>
+                    <button class="btn-add" onclick="abrirModalNota()">+</button>
+                </div>
+            </div>
+            <div id="listaNotasContainer" class="notas-container"></div>
+        </div>
+
+        <!-- ========== PESTAÑA FEYNMAN ========== -->
+        <div id="tab-feynman" class="tab-pane">
+            <div class="tab-header">
+                <h2>🧠 Técnica Feynman</h2>
+                <button class="btn-help" onclick="mostrarAyuda('feynman')">❓</button>
+            </div>
+            <div class="feynman-container">
+                <p class="feynman-desc">Explica el tema como si se lo enseñaras a un niño:</p>
+                <textarea id="feynmanTexto" class="feynman-textarea" placeholder="Escribe tu explicación simple aquí..."></textarea>
+                <div class="checklist-container">
+                    <h4>✅ Checklist de comprensión:</h4>
+                    <label><input type="checkbox" class="checklist-item"> ¿Puedo explicarlo sin usar jerga técnica?</label>
+                    <label><input type="checkbox" class="checklist-item"> ¿Identifiqué los conceptos clave?</label>
+                    <label><input type="checkbox" class="checklist-item"> ¿Encontré áreas donde me trabo?</label>
+                    <label><input type="checkbox" class="checklist-item"> ¿Simplifiqué con una analogía?</label>
+                </div>
+                <button class="btn-primary" onclick="guardarFeynman()">💾 Guardar explicación</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para tareas -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- Modal de ayuda -->
+    <div id="modalAyuda" class="modal">
+        <div class="modal-content modal-ayuda">
+            <span class="close" onclick="cerrarModalAyuda()">&times;</span>
+            <div id="modalAyudaBody"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
