@@ -6,6 +6,8 @@
   "display": "standalone",
   "theme_color": "#FF6B9D",
   "background_color": "#667eea",
+  "orientation": "portrait",
+  "id": "mayte-planner",
   "icons": [
     {
       "src": "https://emojicdn.elk.sh/🌸?size=192",

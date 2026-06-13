@@ -1,10 +1,10 @@
-const CACHE_NAME = 'mayte-planner-v1';
+const CACHE_NAME = 'mayte-planner-v3';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/script.js',
-  '/manifest.json'
+  '/Mayte-planner/',
+  '/Mayte-planner/index.html',
+  '/Mayte-planner/style.css',
+  '/Mayte-planner/script.js',
+  '/Mayte-planner/manifest.json'
 ];
 
 self.addEventListener('install', event => {
