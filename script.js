@@ -379,7 +379,7 @@ function eliminarNota(id) {
 function agregarBloque() {
     const container = document.getElementById('listaBloquesContainer');
     if (!container) return;
-    
+
     const bloqueDiv = document.createElement('div');
     bloqueDiv.className = 'bloque-item';
     bloqueDiv.innerHTML = `
@@ -388,7 +388,7 @@ function agregarBloque() {
             <option value="descanso">☕ Descanso</option>
         </select>
         <input type="number" placeholder="Duración (min)" class="duracion-bloque" min="1" value="25">
-        <input type="text" placeholder="${Math.random() > 0.5 ? 'Materia / Tema' : 'Acción del descanso'}" class="titulo-bloque">
+        <input type="text" placeholder="Ej. Matemáticas o Tomar agua" class="titulo-bloque">
         <button onclick="this.parentElement.remove()" style="background: #ff4444; color:white; border:none; border-radius:8px; padding:5px 10px; cursor:pointer;">❌</button>
     `;
     container.appendChild(bloqueDiv);
